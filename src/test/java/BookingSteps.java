@@ -45,11 +45,6 @@ public class BookingSteps {
         System.out.println("Бронирование отклонено: " + сообщение);
     }
 
-    @Then("столик номер {int} занят")
-    public void столикНомерЗанятПроверка(int номер) {
-        System.out.println("Проверяем, что столик " + номер + " занят");
-    }
-
     @Given("гость забронировал столик на {int} человека")
     public void гостьЗабронировалСтоликНаЧеловека(int количество) {
         System.out.println("Бронируем столик на " + количество + " человек (для отмены)");
@@ -90,7 +85,7 @@ public class BookingSteps {
 
     // Дополнительные шаги для блока 8
     @Then("количество гостей в брони равно {int}")
-    public void количество ГостейВБрониРавно(int количество) {
+    public void checkGuestCountInBooking(int количество) {
         System.out.println("Количество гостей в брони: " + количество);
     }
 }

@@ -1,13 +1,39 @@
-import org.junit.platform.suite.api.ConfigurationParameter;
-import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectClasspathResource;
-import org.junit.platform.suite.api.Suite;
+import org.junit.jupiter.api.Test;
 
-import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Suite
-@IncludeEngines("cucumber")
-@SelectClasspathResource("features")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-public class CucumberRunnerTest {
+import io.cucumber.core.cli.Main;
+
+class CucumberRunnerTest {
+
+    private static final String FEATURES = "src/test/resources/booking.feature";
+
+    @Test
+    void runAllScenarios() {
+        run("json:build/reports/cucumber/all.json", FEATURES);
+    }
+
+    @Test
+    void runOnlySmokeScenarios() {
+        run("json:build/reports/cucumber/smoke.json", "--tags", "@smoke", FEATURES);
+    }
+
+    @Test
+    void runAllExceptNegativeScenarios() {
+        run("json:build/reports/cucumber/not-negative.json", "--tags", "not @negative", FEATURES);
+    }
+
+    private void run(String reportPlugin, String... extraArgs) {
+        String[] base = new String[]{
+                "--glue", "",
+                "--plugin", "pretty",
+        };
+        java.util.List<String> all = new java.util.ArrayList<>();
+        java.util.Collections.addAll(all, base);
+        all.add("--plugin");
+        all.add(reportPlugin);
+        java.util.Collections.addAll(all, extraArgs);
+        byte exit = Main.run(all.toArray(new String[0]), Thread.currentThread().getContextClassLoader());
+        assertEquals(0, exit, "Cucumber scenarios must all pass");
+    }
 }
