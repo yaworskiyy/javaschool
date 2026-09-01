@@ -17,6 +17,10 @@ dependencies {
     testImplementation 'io.cucumber:cucumber-java:7.18.0'
     testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.18.0'
 
+    // hw_17 — REST-assured
+    testImplementation 'io.rest-assured:rest-assured:4.4.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
     // hw_19 — Selenide
     testImplementation 'com.codeborne:selenide:7.3.3'
 }
